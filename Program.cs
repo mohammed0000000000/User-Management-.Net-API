@@ -1,7 +1,7 @@
 
-using userManagement.Helper;
 using userManagement.Services.Contracts;
 using userManagement.Services.Implement;
+using userManagement.Settings;
 namespace userManagement
 {
 	public class Program
@@ -17,6 +17,7 @@ namespace userManagement
 			builder.Services.AddSwaggerGen();
 
 			// Configure MailKit with settings from appsettings.json
+			builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JWTSettings"));
 			builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 			builder.Services.AddTransient<IMailingService, MailService>();
 

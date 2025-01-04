@@ -1,6 +1,6 @@
-﻿namespace userManagement.Helper
+﻿namespace userManagement.Settings
 {
-	public class JWT
+	public class JwtSettings
 	{
 		public string SecrityKey { get; set; }
 		public string AudienceIP { get; set; }

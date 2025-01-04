@@ -1,4 +1,4 @@
-﻿namespace userManagement.Helper
+﻿namespace userManagement.Settings
 {
 	public class MailSettings
 	{

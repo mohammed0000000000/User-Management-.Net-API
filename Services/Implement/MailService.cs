@@ -2,7 +2,7 @@
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using userManagement.Helper;
+using userManagement.Settings;
 using userManagement.Models;
 using userManagement.Services.Contracts;
 
