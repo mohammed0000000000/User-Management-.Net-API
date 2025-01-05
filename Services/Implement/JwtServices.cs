@@ -58,11 +58,11 @@ namespace userManagement.Services.Implement
 		}
 
 		RefreshToken IJwtServices.GenerateRefreshToken() {
-			return new RefreshToken(){
+			return new RefreshToken() {
 				Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
 				CreatedOn = DateTime.UtcNow,
-				ExpiresOn = DateTime.UtcNow.AddDays(_jwt.),
-			}
+				ExpiresOn = DateTime.UtcNow.AddDays(_jwt.RefreshTokenExpired),
+			};
 		}
 	}
 }

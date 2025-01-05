@@ -14,46 +14,6 @@ namespace userManagement.Services.Implement
 		public UserService(UserManager<ApplicationUser> userManager) {
 			this.userManager = userManager;
 		}
-		public async Task<userDto> createUser(registerDto model) {
-			try {
-				var checkEmail = await userManager.Users.AnyAsync(x => x.Email == model.Email);
-				if (checkEmail) {
-					return new userDto() {
-						Success = false,
-						Error = true,
-						Message = "User Already Exist!."
-					};
-				}
-				var newUser = new ApplicationUser() {
-					Email = model.Email,
-					FirstName = model.FirstName,
-					LastName = model.LastName,
-					UserName = $"{model.FirstName} {model.LastName}",
-					PasswordHash = model.Password
-				};
-				var createdUser = await userManager.CreateAsync(newUser, model.Password);
-				if (!createdUser.Succeeded) {
-					var errorMessage = string.Join(" ", createdUser.Errors.Select(x => x.Description));
-					return new userDto() {
-						Success = false,
-						Error = true,
-						Message = errorMessage
-					};
-				}
-
-				return new userDto() {
-					Success = true,
-					Error = false,
-					UserName = $"{newUser.UserName}",
-					Email = $"{newUser.Email}"
-				};
-			} catch (Exception ex) {
-				return new userDto() {
-					Error = true,
-					Message = "An unexpected error occurred while creating the user."
-				};
-			}
-		}
 
 		public async Task<userDto> updateUser(string userId, updateUserDetails model) {
 			try {

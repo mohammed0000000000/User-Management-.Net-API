@@ -14,8 +14,9 @@ namespace userManagement.Services.Implement
 		public MailService(IOptions<MailSettings> mailSettings) {
 			_mailSettings = mailSettings.Value;
 		}
+
 		public async Task<bool> SendEmailAsync(MailRequest mailRequest) {
-			try{
+			try {
 				var email = new MimeMessage();
 				email.Sender = MailboxAddress.Parse(_mailSettings.SenderEmail);
 				email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
@@ -43,12 +44,39 @@ namespace userManagement.Services.Implement
 				await stmp.SendAsync(email);
 				stmp.Disconnect(true);
 				return true;
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				throw;
 				return false;
 			}
+		}
+		public string GenerateEmailVerificationTextBody(string username, string verificationLink) {
+			return $@"
+			Hi {username},
 
+			Thank you for signing up. Please verify your email address by clicking the link below:
+
+			{verificationLink}
+
+			If you did not request this email, please ignore it.
+
+			Best regards,
+			Your Application Team
+			";
+		}
+
+		public string GenerateEmailVerificationTextBody(string userName, int verificationCode) {
+			return $@"
+			Hi {userName},
+
+			Thank you for signing up. Use the following code to verify your email address:
+
+			{verificationCode}
+
+			If you did not request this email, please ignore it.
+
+			Best regards,
+			Your Application Team
+			";
 		}
 	}
 }
