@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Org.BouncyCastle.Asn1.X509;
-using System.Runtime.Intrinsics.X86;
-using System;
 using System.Security.Cryptography;
 using userManagement.DTOs;
 using userManagement.Models;
 using userManagement.Services.Contracts;
 using userManagement.Settings;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace userManagement.Services.Implement
 {
@@ -43,7 +39,8 @@ namespace userManagement.Services.Implement
 					FirstName = model.FirstName,
 					LastName = model.LastName,
 					UserName = $"{model.FirstName} {model.LastName}",
-					PasswordHash = model.Password
+					PasswordHash = model.Password,
+					VerificationToken = GenerateVerifyNumber(),
 				};
 				var createdUser = await userManager.CreateAsync(newUser, model.Password);
 				if (!createdUser.Succeeded) {
@@ -89,7 +86,7 @@ namespace userManagement.Services.Implement
 						Success = false,
 						Message = "Email Not Found"
 					};
-				if(user.VerifiedAt is null){
+				if( user.VerificationToken is not null && user.VerifiedAt is null){
 					return new AuthModel() {
 						Success = false,
 						Message = "This Email Not Verifyed.\n Please Check your email."
@@ -171,11 +168,14 @@ namespace userManagement.Services.Implement
 		}
 		public async Task<bool> VerifyEmail(string token) {
 			try {
-				if()
+				/*
+				 * to Verify Email 
+				 */
 			} catch (Exception ex) {
 				throw;
 			}
 		}
 		private string GenerateRandomToken() => Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+		private string GenerateVerifyNumber() => (new Random().Next(100000, 999999));
 	}
 }

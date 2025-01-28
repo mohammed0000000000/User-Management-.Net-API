@@ -10,6 +10,6 @@ namespace userManagement.Services.Contracts
 		Task<AuthModel> LoginAsync(loginDto loginDto);
 		Task<AuthModel> RefreshTokenAsync(string token);
 		Task<bool> RefreshTokenRevokeAsync(string token);
-		Task<bool> VerifyEmail(string token);
+		Task<bool> VerifyEmail(verifyEmailDto model);
 	}
 }
